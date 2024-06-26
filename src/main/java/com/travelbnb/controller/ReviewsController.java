@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/review")
 public class ReviewsController {
@@ -31,6 +33,11 @@ public class ReviewsController {
         @AuthenticationPrincipal AppUser user,@RequestParam long propertyId, @RequestBody Reviews reviews){
         Reviews reviews1 = reviewService.addReview(user, propertyId, reviews);
 
-          return new ResponseEntity<>("Thank You for Reviewing",HttpStatus.CREATED);
+        return new ResponseEntity<>("Thank You for Reviewing",HttpStatus.CREATED);
+    }
+    @GetMapping("/getReviewsByUser")
+    public ResponseEntity<List<Reviews>>findByUserReviews(@AuthenticationPrincipal AppUser user){
+        List<Reviews> byUserReviews = reviewServiceIMPL.findByUserReviews(user);
+        return new ResponseEntity<>(byUserReviews,HttpStatus.OK);
     }
 }

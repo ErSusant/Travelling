@@ -9,8 +9,7 @@ import jakarta.validation.constraints.Size;
 public class ReviewsDto {
     private Long id;
 
-@Size(min=0,max=5,message = "rating should be below 5")
-    private String ratings;
+    private Integer ratings;
 
     private String description;
 
@@ -41,10 +40,10 @@ public class ReviewsDto {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getRatings() {
+    public Integer getRatings() {
         return ratings;
     }
-    public void setRatings(String ratings) {
+    public void setRatings(Integer ratings) {
         this.ratings = ratings;
     }
     public Long getId() {

@@ -12,7 +12,10 @@ import java.util.List;
 public interface ReviewService {
 
     Reviews addReview(AppUser user, long propertyId, Reviews reviews);
+    void deleteReviews(long reviewsId);
+    Reviews updateReviews(long reviewsId,long userId,long propertyId,Reviews ereviews);
+    List<ReviewsDto>getAllReviews();
+    List<ReviewsDto>findByUserReviews(AppUser user);
 
-    List<Reviews>findByUserReviews(AppUser user);
 
 }

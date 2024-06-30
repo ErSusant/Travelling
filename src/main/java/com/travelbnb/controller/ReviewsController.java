@@ -26,8 +26,7 @@ public class ReviewsController {
         this.reviewServiceIMPL = reviewServiceIMPL;
         this.reviewService = reviewService;
     }
-    //http://localhpost:8080/api/v1/review/addReview
-
+    //http://localhost:8080/api/v1/review/addReview
     @PostMapping("/addReview")
     public  ResponseEntity<?>addReview(
         @AuthenticationPrincipal AppUser user,@RequestParam long propertyId, @RequestBody Reviews reviews){
@@ -35,9 +34,33 @@ public class ReviewsController {
 
         return new ResponseEntity<>("Thank You for Reviewing",HttpStatus.CREATED);
     }
+    //http://localhost:8080/api/v1/review?reviewsId=1
+    @DeleteMapping
+    public ResponseEntity<String>deleteReviews(@RequestParam long reviewsId){
+        reviewServiceIMPL.deleteReviews(reviewsId);
+    return new ResponseEntity<>("Record Deleted",HttpStatus.OK);
+    }
+    //http://localhost:8080/api/v1/review/1/1/1
+    @PutMapping("/{reviewsId}/{userId}/{propertyId}")
+    public ResponseEntity<Reviews>updateReviews(
+            @PathVariable long reviewsId,
+            @PathVariable long userId,
+            @PathVariable long propertyId,
+            @RequestBody Reviews reviews
+     ){
+        Reviews reviews1 = reviewServiceIMPL.updateReviews(reviewsId, userId,propertyId,reviews);
+        return new ResponseEntity<>(reviews1,HttpStatus.OK);
+    }
+    //http://localhost:8080/api/v1/review
+    @GetMapping
+    public ResponseEntity<List<ReviewsDto>>getAllReviews(){
+        List<ReviewsDto> allReviews = reviewServiceIMPL.getAllReviews();
+        return new ResponseEntity<>(allReviews,HttpStatus.OK);
+    }
+    //http://localhost:8080/api/v1/review/getReviewsByUser
     @GetMapping("/getReviewsByUser")
-    public ResponseEntity<List<Reviews>>findByUserReviews(@AuthenticationPrincipal AppUser user){
-        List<Reviews> byUserReviews = reviewServiceIMPL.findByUserReviews(user);
+    public ResponseEntity<List<ReviewsDto>>findByUserReviews(@AuthenticationPrincipal AppUser user){
+        List<ReviewsDto> byUserReviews = reviewServiceIMPL.findByUserReviews(user);
         return new ResponseEntity<>(byUserReviews,HttpStatus.OK);
     }
 }
